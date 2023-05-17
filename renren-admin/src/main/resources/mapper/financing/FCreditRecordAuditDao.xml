@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FCreditRecordAuditDao">
+    <resultMap type="io.renren.modules.financing.dto.FCreditPageDto" id="expeSampleVoMap">
+        <result property="id" column="sample_id"/>
+        <result property="pid" column="formation_id"/>
+        <result property="deptName" column="eval_data"/>
+        <result property="creditId" column="eval_data"/>
+        <result property="institutionName" column="eval_data"/>
+        <result property="quota" column="eval_all"/>
+        <result property="startDate" column="num"/>
+        <result property="indirectQuota" column="eval_all"/>
+        <result property="endDate" column="num_of_run"/>
+        <result property="creditMeasures" column="phase"/>
+        <result property="directQuota" column="phase"/>
+        <result property="indirectQuota" column="phase"/>
+        <result property="unUsedQuota" column="phase"/>
+        <result property="institutionType" column="phase"/>
+    </resultMap>
+
+    <select id="getlist" resultType="io.renren.modules.financing.dto.FCreditPageDto">
+        SELECT
+            t1.id,
+            t1.pid,
+            t1.NAME deptName,
+            t2.id creditId,
+            t2.quota,
+            t2.indirect_quota indirectQuota,
+            t2.start_date startDate,
+            t2.end_date endDate,
+            t2.credit_measures creditMeasures,
+            t3.`name` institutionName,
+            t3.type institutionType
+        FROM
+            sys_dept t1
+                JOIN (	SELECT
+                              a.*
+                          FROM
+                              f_credit_record a
+                                  JOIN ( SELECT MAX( id ) id FROM f_credit_record GROUP BY dept_id,finance_dept_id ) b ON b.id = a.id ) t2 ON t2.dept_id = t1.id
+                JOIN f_finance_dept t3 ON t3.id = t2.institution
+        ORDER BY
+            t1.sort ASC;
+    </select>
+    <select id="getInfo" resultType="io.renren.modules.financing.dto.FCreditRecordAuditDTO">
+        SELECT
+            t2.*,
+            t1.`name` deptName,
+            t3.type institutionType,
+            t3.`name` institutionName
+        FROM
+            sys_dept t1
+                JOIN f_credit_record t2 on t2.dept_id = t1.id
+                join f_finance_dept t3 on t3.id = t2.institution
+        where t2.id	= #{id}
+    </select>
+    <select id="getDealData" resultType="io.renren.modules.financing.dto.FCreditRecordAuditDTO">
+        SELECT
+            t2.*,
+            t1.`name` deptName,
+            t3.type institutionType,
+            t3.`name` institutionName
+        FROM
+            sys_dept t1
+                JOIN f_credit_record t2 on t2.dept_id = t1.id
+                join f_finance_dept t3 on t3.id = t2.institution
+        where t2.id	= #{id}
+    </select>
+</mapper>

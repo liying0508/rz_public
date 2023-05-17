@@ -1,0 +1,24 @@
+div[class*='ui-tooltip--'] {
+    background-color: #ffffff;
+    border-color: #c5c5c5;
+    color: #4a4a4a;
+    font-family: Verdana;
+    font-size: 12px;
+}
+
+div[class*='ui-tooltip--'] .qtip-content {
+  color: #4a4a4a;
+  background-color: #ffffff;
+  font-family: Verdana;
+  font-size: 12px;
+}
+
+.ui-tooltip--cmmn .qtip-titlebar {
+  color: #FFFFFF;
+  font-size: 12px;
+  background: #2B414F;
+}
+
+.ui-tooltip--cmmn .qtip-tip {
+  background-color: #2B414F;
+}

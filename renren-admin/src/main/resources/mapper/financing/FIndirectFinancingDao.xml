@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FIndirectFinancingDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FIndirectFinancingEntity" id="fIndirectFinancingMap">
+        <result property="id" column="id"/>
+        <result property="creditId" column="credit_id"/>
+        <result property="financingOrg" column="financing_org"/>
+        <result property="institutionType" column="type"/>
+        <result property="varieties" column="varieties"/>
+        <result property="marginRatio" column="margin_ratio"/>
+        <result property="discountRate" column="discount_rate"/>
+        <result property="contractNo" column="contract_no"/>
+        <result property="contractAmount" column="contract_amount"/>
+        <result property="withdrawalAmount" column="withdrawal_amount"/>
+        <result property="rate" column="rate"/>
+        <result property="interestMethod" column="interest_method"/>
+        <result property="loanDate" column="loan_date"/>
+        <result property="repaymentDate" column="repayment_date"/>
+        <result property="financingBalance" column="financing_balance"/>
+        <result property="otherExpenses" column="other_expenses"/>
+        <result property="purpose" column="purpose"/>
+        <result property="creditMeasures" column="credit_measures"/>
+        <result property="repaymentPlan" column="repayment_plan"/>
+        <result property="decisionBasis" column="decision_basis"/>
+        <result property="remarks" column="remarks"/>
+        <result property="creator" column="creator"/>
+        <result property="investor" column="investor"/>
+        <result property="project" column="project"/>
+        <result property="intermediaryStructure" column="intermediary_structure"/>
+    </resultMap>
+    <update id="updateActualRepaymentById">
+        update f_indirect_financing
+        set actual_repayment = #{actualRepayment,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateFinancingBalanceById">
+        update f_indirect_financing
+        set financing_balance = #{financingBalance,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getDealData" resultType="io.renren.modules.financing.dto.FIndirectFinancingDTO">
+        select * from f_indirect_financing WHERE id=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getUsedQuota" resultType="java.math.BigDecimal">
+        select SUM(withdrawal_amount)
+        FROM f_indirect_financing
+        where dept_id = #{deptId}
+        and institution = #{institution}
+        and is_checked = 1
+        and group_checked = 1
+    </select>
+
+    <select id="getUsedQuotaByInstitutionId" resultType="BigDecimal">
+        select SUM(withdrawal_amount)
+        FROM f_indirect_financing
+        where institution = #{institution}
+        and is_checked = 1
+        and group_checked = 1
+    </select>
+
+    <select id="selectAllData" resultType="io.renren.modules.financing.dto.FIndirectFinancingDTO">
+        select * from
+        f_indirect_financing
+    </select>
+</mapper>

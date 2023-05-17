@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.RepaymentInfoHistoryDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FRepaymentInfoTableHistoryEntity" id="fRepaymentInfoTableEntityMap">
+    </resultMap>
+
+    <select id="selectData" resultType="io.renren.modules.financing.dto.RepaymentInfoHistoryDTO">
+        select * from f_repayment_info_table_history
+        where financing_id = #{financingId}
+          AND financing_type = #{financingType}
+    </select>
+
+</mapper>

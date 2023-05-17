@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.RepaymentInfoDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FRepaymentInfoTableEntity" id="fRepaymentInfoTableEntityMap">
+    </resultMap>
+
+    <delete id="delData">
+        delete from f_repayment_info_table
+        where financing_id = #{financingId}
+        AND financing_type = #{financingType}
+    </delete>
+
+    <select id="selectData" resultType="io.renren.modules.financing.dto.RepaymentInfoDTO">
+        select * from f_repayment_info_table
+        where financing_id = #{financingId}
+          AND financing_type = #{financingType}
+    </select>
+</mapper>

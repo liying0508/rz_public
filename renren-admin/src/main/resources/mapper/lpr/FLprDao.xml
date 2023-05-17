@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.lpr.dao.FLprDao">
+
+    <resultMap type="io.renren.modules.lpr.entity.FLprEntity" id="fLprMap">
+        <result property="id" column="id"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="rate" column="rate"/>
+        <result property="fiveRate" column="five_rate"/>
+    </resultMap>
+    <select id="getAllLpr" resultType="io.renren.modules.lpr.dto.FLprDTO">
+        select *
+        from f_lpr
+        order by
+        start_time
+    </select>
+</mapper>

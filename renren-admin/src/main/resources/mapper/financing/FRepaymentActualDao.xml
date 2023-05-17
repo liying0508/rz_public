@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.renren.modules.financing.dao.FRepaymentActualDao">
+    <resultMap id="BaseResultMap" type="io.renren.modules.financing.entity.FRepaymentActual">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="financing_type" jdbcType="INTEGER" property="financingType" />
+        <result column="financing_id" jdbcType="BIGINT" property="financingId" />
+        <result column="plan_type" jdbcType="INTEGER" property="planType" />
+        <result column="repayment_date" jdbcType="DATE" property="repaymentDate"/>
+        <result column="actual_repay_principal" jdbcType="DECIMAL" property="actualRepayPrincipal"/>
+        <result column="actual_repay_interest" jdbcType="DECIMAL" property="actualRepayInterest"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="creator" jdbcType="BIGINT" property="creator" />
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    </resultMap>
+
+    <select id="selectPrincipalActual" resultType="io.renren.modules.financing.dto.FRepayPrincipalActualDTO">
+        SELECT id,financing_type,financing_id,
+               repayment_date,
+               actual_repay_principal,remark
+        FROM f_repayment_actual
+        WHERE actual_type = 1
+          AND financing_id = #{financingId}
+          AND financing_type = #{financingType}
+    </select>
+    <select id="selectInterestActual" resultType="io.renren.modules.financing.dto.FRepayInterestActualDTO">
+        SELECT id,financing_type,financing_id,
+               repayment_date,rate,
+               actual_repay_interest,remark
+        FROM f_repayment_actual
+        WHERE actual_type = 2
+          AND financing_id = #{financingId}
+          AND financing_type = #{financingType}
+    </select>
+    <select id="selectAllActualId" resultType="java.lang.Long">
+        SELECT id
+        FROM f_repayment_actual
+        WHERE financing_id = #{financingId}
+          AND financing_type = #{financingType}
+    </select>
+    <delete id="deletePayActual" >
+        DELETE FROM f_repayment_actual
+        WHERE financing_id = #{financingId}
+        AND financing_type = #{financingType}
+    </delete>
+</mapper>

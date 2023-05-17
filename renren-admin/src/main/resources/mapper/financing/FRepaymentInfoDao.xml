@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FRepaymentInfoDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FRepaymentInfo" id="fRepaymentInfoMap">
+    </resultMap>
+
+    <select id="getGovernment" resultType="io.renren.modules.financing.dto.FRepaymentInfoPageDTO">
+        SELECT
+        id as financingId,
+        dept_name as deptName,
+        financing_amount as totalAmount,
+        varieties
+        FROM f_government_bond
+        where is_checked =1
+    </select>
+
+    <select id="getDirect" resultType="io.renren.modules.financing.dto.FRepaymentInfoPageDTO">
+        SELECT
+        a.id as financingId,
+        b.name as deptName,
+        b.id as deptId,
+        a.approve_no as approveNo,
+        a.issue_quota as totalAmount,
+        a.varieties
+        FROM f_direct_financing a
+        LEFT JOIN sys_dept b
+        ON a.dept_id = b.id
+        where a.is_checked =1
+    </select>
+    <select id="getIndirect" resultType="io.renren.modules.financing.dto.FRepaymentInfoPageDTO">
+        select
+        a.id as financingId,
+        a.contract_amount as totalAmount,
+        b.name as deptName,
+        b.id as deptId,
+        c.name as institutionName,
+        a.varieties
+        FROM f_indirect_financing a
+        left JOIN sys_dept b
+        ON a.dept_id = b.id
+        LEFT JOIN f_finance_dept c
+        ON a.institution = c.id
+        where a.is_checked =1
+    </select>
+    <select id="getRepaymentInfo" resultType="io.renren.modules.financing.dto.FRepaymentInfoDTO">
+        SELECT * from
+        f_repayment_info
+        where financing_id = #{financingId,jdbcType=BIGINT}
+        AND financing_type = #{financingType,jdbcType=INTEGER}
+    </select>
+    <select id="getDealData" resultType="io.renren.modules.financing.dto.FRepaymentInfoDTO">
+        select *
+        FROM f_repayment_info
+        WHERE financing_id = #{financingId}
+    </select>
+    <select id="getRepaymentInfoHistory" resultType="io.renren.modules.financing.dto.FRepaymentInfoDTO">
+        SELECT * from
+        f_repayment_info_history
+        where financing_id = #{financingId,jdbcType=BIGINT}
+        AND financing_type = #{financingType,jdbcType=INTEGER}
+    </select>
+</mapper>

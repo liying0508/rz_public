@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.report.dao.RCreditMonthDao">
+    <select id="selectDataByMonth" resultType="io.renren.modules.report.dto.RCreditMonthDTO">
+        SELECT
+            b.name AS institutionName,
+            SUM(a.quota) AS creditTotalAmount
+        FROM f_credit_record a
+                 LEFT JOIN f_finance_dept b
+                           ON a.institution = b.id
+        WHERE YEAR(start_date) &lt;= YEAR(#{month})
+        AND MONTH(start_date) &lt;= MONTH(#{month})
+        AND YEAR(end_date) &gt;= YEAR(#{month})
+        AND MONTH(end_date) &gt;= MONTH(#{month})
+        AND is_checked = 1
+        AND group_checked = 1
+        GROUP BY institution
+    </select>
+</mapper>

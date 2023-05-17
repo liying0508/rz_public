@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FDirectFinancingDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FDirectFinancingEntity" id="fDirectFinancingMap">
+        <result property="id" column="id"/>
+        <result property="creditId" column="credit_id"/>
+        <result property="financingOrg" column="financing_org"/>
+        <result property="varieties" column="varieties"/>
+        <result property="approveOrg" column="approve_org"/>
+        <result property="approveNo" column="approve_no"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="approveQuota" column="approve_quota"/>
+        <result property="purpose" column="purpose"/>
+        <result property="issueSum" column="issue_sum"/>
+        <result property="issueQuota" column="issue_quota"/>
+        <result property="rate" column="rate"/>
+        <result property="loanDate" column="loan_date"/>
+        <result property="repaymentDate" column="repayment_date"/>
+        <result property="financingBalance" column="financing_balance"/>
+        <result property="otherExpenses" column="other_expenses"/>
+        <result property="creditMeasures" column="credit_measures"/>
+        <result property="interestMethod" column="interest_method"/>
+        <result property="repaymentPlan" column="repayment_plan"/>
+        <result property="remarks" column="remarks"/>
+        <result property="investor" column="investor"/>
+        <result property="project" column="project"/>
+        <result property="intermediaryStructure" column="intermediary_structure"/>
+        <result property="principalMethod" column="principal_method"/>
+        <result property="files" column="files"/>
+    </resultMap>
+    <update id="updateActualRepaymentById">
+        update f_direct_financing
+        set actual_repayment = #{actualRepayment,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateFinancingBalanceById">
+        update f_direct_financing
+        set financing_balance = #{financingBalance,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getData" resultType="java.util.HashMap">
+        select count(1) issue,IFNULL(sum(foreign_currency_amount),0) allUseQuota
+        from f_direct_financing
+        where approve_no=#{approveNo,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getDealData" resultType="io.renren.modules.financing.dto.FDirectFinancingDTO">
+        SELECT a.*,b.varieties
+        FROM f_direct_financing a
+        LEFT JOIN f_direct_financing_approval b
+        on a.approve_no = b.approve_no
+        WHERE a.id=#{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAllFilesInDataBase" resultType="String">
+        SELECT files
+        FROM f_indirect_financing
+        UNION
+        SELECT files
+        FROM f_direct_financing
+        UNION
+        SELECT files
+        FROM f_credit_record
+        UNION
+        SELECT files
+        FROM f_credit_record_history
+        UNION
+        SELECT files
+        FROM f_direct_financing_approval
+    </select>
+    <select id="getUsedQuotaByInstitutionId" resultType="java.math.BigDecimal">
+        select SUM(issue_quota)
+        from f_direct_financing
+        where institution = #{institution}
+        and is_checked = 1
+        and group_checked = 1
+        and occupancy_credit_quota = 1
+    </select>
+</mapper>

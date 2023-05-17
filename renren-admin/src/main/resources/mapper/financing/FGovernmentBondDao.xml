@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FGovernmentBondDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FGovernmentBondEntity" id="fGovernmentBondMap">
+        <result property="id" column="id"/>
+        <result property="varieties" column="varieties"/>
+        <result property="financingAmount" column="financing_amount"/>
+        <result property="rate" column="rate"/>
+        <result property="loanDate" column="loan_date"/>
+        <result property="repaymentDate" column="repayment_date"/>
+        <result property="financingBalance" column="financing_balance"/>
+        <result property="project" column="project"/>
+        <result property="creditMeasures" column="credit_measures"/>
+        <result property="interestMethod" column="interest_method"/>
+        <result property="repaymentPlan" column="repayment_plan"/>
+        <result property="remarks" column="remarks"/>
+    </resultMap>
+    <update id="updateActualRepaymentById">
+        update f_government_bond set actual_repayment = #{actualRepayment,jdbcType=DECIMAL} where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateFinancingBalanceById">
+        update f_government_bond set financing_balance = #{financingBalance,jdbcType=DECIMAL} where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="getDealData" resultType="io.renren.modules.financing.dto.FGovernmentBondDTO">
+        select * from f_government_bond WHERE id=#{id,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

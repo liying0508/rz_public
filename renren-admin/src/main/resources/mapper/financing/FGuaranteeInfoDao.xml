@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.financing.dao.FGuaranteeInfoDao">
+
+    <resultMap type="io.renren.modules.financing.entity.FGuaranteeInfoEntity" id="fGuaranteeInfoMap">
+        <result property="id" column="id"/>
+        <result property="creditId" column="credit_id"/>
+        <result property="creditText" column="credit_text"/>
+        <result property="guarantor" column="guarantor"/>
+        <result property="ratio" column="ratio"/>
+        <result property="contractAmount" column="contract_amount"/>
+        <result property="collateralName" column="collateral_name"/>
+        <result property="collateralAmount" column="collateral_amount"/>
+        <result property="collateralContract" column="collateral_contract"/>
+        <result property="releaseTime" column="release_time"/>
+        <result property="pledgeType" column="pledge_type"/>
+        <result property="pledgeName" column="pledge_name"/>
+        <result property="pledgeAmount" column="pledge_amount"/>
+        <result property="remarks" column="remarks"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+</mapper>

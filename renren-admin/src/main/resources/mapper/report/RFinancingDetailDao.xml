@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.report.dao.RFinancingDetailDao">
+    <select id="selectListFromIndirectFinancing" resultType="io.renren.modules.report.dto.RFinancingDetailDTO">
+        select varieties,dept_id,institution,project,remarks,
+               float_rate,rate,loan_date,repayment_date AS expire_date,lpr_interest_cycle,
+               financing_balance,credit_measures,interest_rates_way,guarantee,collateral,pledge,
+               withdrawal_amount AS usedAmount,actual_repayment
+        FROM f_indirect_financing
+    </select>
+
+    <select id="selectListFromDirectFinancing" resultType="io.renren.modules.report.dto.RFinancingDetailDTO">
+        select varieties,dept_id,project,approve_org AS institutionName,
+               rate,value_date AS loan_date,due_date AS expire_date,
+               financing_balance,credit_measures,guarantee,collateral,pledge,remarks,
+               issue_quota AS usedAmount,actual_repayment
+        from f_direct_financing
+    </select>
+
+    <select id="selectListFromGovernmentBond" resultType="io.renren.modules.report.dto.RFinancingDetailDTO">
+        select varieties,dept_name,project,remarks,
+               rate,loan_date,repayment_date AS expire_date,
+               financing_balance,credit_measures,guarantee,collateral,pledge,
+               financing_amount AS usedAmount,actual_repayment
+        FROM f_government_bond
+    </select>
+
+</mapper>

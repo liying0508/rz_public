@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.credit.dao.FCreditQuotaDao">
+
+    <resultMap type="io.renren.modules.credit.entity.FCreditQuotaEntity" id="fCreditQuotaMap">
+        <result property="id" column="id"/>
+        <result property="institution" column="institution"/>
+        <result property="creator" column="creator"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <select id="selectAllData" resultType="io.renren.modules.credit.dto.FCreditQuotaDTO">
+        select * from
+        f_credit_quota
+    </select>
+
+    <select id="countInstitutionById" resultType="Integer">
+        select count(*) from f_credit_quota where institution = #{institution}
+    </select>
+
+    <update id="updateUsedQuotaByInstitutionId">
+        update f_credit_quota
+        set used_quota_direct = #{usedQuotaDirect},
+            used_quota_indirect = #{usedQuotaIndirect}
+        where institution = #{institution}
+    </update>
+
+</mapper>
